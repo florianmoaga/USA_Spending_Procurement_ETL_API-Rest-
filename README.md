@@ -1,9 +1,9 @@
 # US Federal Spending ETL & Analytics Pipeline 📊
 
 ## Project Overview
-This overall simple project demonstrates a complete, end-to-end Data Engineering pipeline. It extracts federal contract data from the **USASpending.gov API**, processes it using **Python**, stores it in a **SQL Server** data warehouse, and visualizes key business insights through an interactive **Power BI** dashboard.
+This project demonstrates a complete, end-to-end Data Engineering pipeline. It extracts federal contract data from the **USASpending.gov API**, processes it using **Python**, stores it in a **SQL Server** data warehouse, and visualizes key business insights through an interactive **Power BI** dashboard.
 
-The goal is to analyze US government spending patterns focusing on contract magnitudes, awarding agencies, and top recipients.
+The goal is to analyze US government spending patterns, focusing on contract magnitudes, awarding agencies, and top recipients.
 
 ---
 
@@ -25,7 +25,7 @@ The pipeline follows the classic **ETL (Extract, Transform, Load)** pattern:
 
 ---
 
-## 🚀 Key Features
+## 🚀 Key Features & Extensibility
 
 ### 1. Robust Python ETL Pipeline
 *   **Risk Mitigation:** Includes a "Step 0" connectivity check to ensure the database is reachable before starting API calls.
@@ -36,10 +36,12 @@ The pipeline follows the classic **ETL (Extract, Transform, Load)** pattern:
 The script creates new dimensions beyond raw data:
 *   **Contract Categorization:** Automatically flags contracts as "Big", "Medium", or "Small" based on financial thresholds.
 *   **Time Intelligence:** Deconstructs dates into Years and Months for granular trend analysis.
+*   *Production Extension Note:* While this acts as a robust baseline, this stage can easily be extended to integrate secondary API endpoints (such as OpenCorporates, Clearbit, or SEC EDGAR) to dynamically pull and map corporate profiles, industry classification codes (NAICS/SIC), and parent-subsidiary relationships for the recipient companies.
 
 ### 3. SQL Data Warehousing
 *   Data is stored in a clean `Fact_Awards` table.
 *   Optimized for BI ingestion with appropriate data types for financial values and dates.
+*   *Database Best Practices Note:* For demo simplicity, the dataset is loaded into a single flattened table. However, this pipeline can be seamlessly modularized into a formal **Star Schema** (separating `Fact_Awards` from dimension tables like `Dim_Recipients` and `Dim_Agencies`). Additionally, audit tracking columns such as `loaded_at` or `added_on` can be added via Python using `datetime.now()` to trace data lineage and pipeline execution times.
 
 ### 4. Interactive Power BI Dashboard
 The report answers four fundamental business questions:
